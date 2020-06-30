@@ -4,6 +4,7 @@ import { GoogleLogin } from "react-google-login";
 import { withStyles, Typography } from "@material-ui/core";
 import AppContext from "../../context";
 import { ME_QUERY } from "../../graphql/queries";
+
 const Login = ({ classes }) => {
   const { dispatch } = useContext(AppContext);
 
@@ -16,7 +17,7 @@ const Login = ({ classes }) => {
 
       const { me } = await client.request(ME_QUERY);
       dispatch({ type: "LOGIN_USER", payload: me });
-      // console.log("me obj", me);
+      dispatch({ type: "IS_LOGGED_IN", payload: googleUser.isSignedIn() });
     } catch (error) {
       console.error("login failed", error);
     }
