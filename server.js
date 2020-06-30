@@ -3,10 +3,11 @@ const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
 
-//MongoDB
+//db
 const mongoose = require("mongoose");
-const { findOrCreateUser } = require("./controllers/userController");
 require("dotenv").config();
+//auth
+const { findOrCreateUser } = require("./controllers/userController");
 
 mongoose
   .connect(process.env.Mongo_URI, {

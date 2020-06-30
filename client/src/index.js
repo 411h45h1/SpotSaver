@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useReducer } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -7,14 +7,22 @@ import Splash from "./pages/Splash";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import * as serviceWorker from "./serviceWorker";
+//context
+import AppContext from "./context";
+import reducer from "./reducer";
 
 const Root = () => {
+  const initialState = useContext(AppContext);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  console.log({ state });
   return (
     <Router>
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/login" component={Splash} />
-      </Switch>
+      <AppContext.Provider value={{ state, dispatch }}>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/login" component={Splash} />
+        </Switch>
+      </AppContext.Provider>
     </Router>
   );
 };
