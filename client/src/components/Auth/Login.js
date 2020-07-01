@@ -32,6 +32,7 @@ const Login = ({ classes }) => {
         onSuccess={onSuccess}
         onFailure={(err) => console.error("login failed", err)}
         isSignedIn={true}
+        buttonText="Login with Google"
         theme="dark"
       />
     </div>
