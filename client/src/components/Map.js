@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import ReactMapGL from "react-map-gl";
+import ReactMapGL, { NavigationControl } from "react-map-gl";
+import AppContext from "../context";
+
 // import Button from "@material-ui/core/Button";
 // import Typography from "@material-ui/core/Typography";
 // import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
 
-const viewport = {
+const INITIAL_VIEWPORT = {
   latitude: 43.65107,
   longitude: -79.3832,
-  zoom: 11,
+  zoom: 12,
 };
 const Map = ({ classes }) => {
+  const { state } = useContext(AppContext);
+  const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
   return (
     <div className={classes.root}>
       <ReactMapGL
         mapboxApiAccessToken="pk.eyJ1Ijoic2hwYWR6YSIsImEiOiJja2MzdXlxYTQwMXA0MnlvOXY2OW96YjFtIn0.SwnKMiMA5aPj_3AK8j88MA"
         width="100vw"
         height="calc(100vh - 64px)"
-        mapStyle="mapbox://styles/shpadza/ckc3w452h044d1io64r5bso1r"
+        mapStyle={state.mapSelected}
+        onViewportChange={(movedView) => setViewport(movedView)}
         {...viewport}
-      />
+      >
+        {/* nav control */}
+        <div className={classes.navigationControl}>
+          <NavigationControl
+            onViewportChange={(movedView) => setViewport(movedView)}
+          />
+        </div>
+      </ReactMapGL>
     </div>
   );
 };
