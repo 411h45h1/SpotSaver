@@ -1,5 +1,6 @@
 export default function reducer(state, action) {
   switch (action.type) {
+    // Auth
     case "LOGIN_USER":
       return {
         ...state,
@@ -16,6 +17,21 @@ export default function reducer(state, action) {
         isAuth: false,
         currentUser: null,
       };
+    // draft pin
+    case "CREATE_DRAFT":
+      return {
+        ...state,
+        draftPin: {
+          latitude: 0,
+          longitude: 0,
+        },
+      };
+    case "UPDATE_DRAFT_LOCATION":
+      return {
+        ...state,
+        draftPin: action.payload,
+      };
+    // Map
     case "MAP_CHANGE_BASIC":
       return {
         ...state,

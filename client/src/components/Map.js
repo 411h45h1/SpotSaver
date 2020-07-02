@@ -13,7 +13,7 @@ const INITIAL_VIEWPORT = {
   zoom: 12,
 };
 const Map = ({ classes }) => {
-  const { state } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
   const [userPosition, setUserPosition] = useState(null);
 
@@ -30,11 +30,24 @@ const Map = ({ classes }) => {
       });
     }
   };
+  const handleMapClick = ({ lngLat, leftButton }) => {
+    if (!leftButton) return;
+    if (!state.draftPin) {
+      dispatch({ type: "CREATE_DRAFT" });
+    }
 
+    const [longitude, latitude] = lngLat;
+
+    dispatch({
+      type: "UPDATE_DRAFT_LOCATION",
+      payload: { longitude, latitude },
+    });
+  };
   return (
     <div className={classes.root}>
       <ReactMapGL
         mapboxApiAccessToken="pk.eyJ1Ijoic2hwYWR6YSIsImEiOiJja2MzdXlxYTQwMXA0MnlvOXY2OW96YjFtIn0.SwnKMiMA5aPj_3AK8j88MA"
+        onClick={handleMapClick}
         width="100vw"
         height="calc(100vh - 64px)"
         mapStyle={state.mapSelected}
@@ -56,7 +69,19 @@ const Map = ({ classes }) => {
             offsetLeft={-19}
             offsetTop={-37}
           >
-            <PinIcon size={40} color="gray" />
+            <PinIcon size={40} color="maroon" />
+          </Marker>
+        )}
+        {/* draft Pin */}
+
+        {state.draftPin && (
+          <Marker
+            latitude={state.draftPin.latitude}
+            longitude={state.draftPin.longitude}
+            offsetLeft={-19}
+            offsetTop={-37}
+          >
+            <PinIcon size={40} color="green" />
           </Marker>
         )}
       </ReactMapGL>
