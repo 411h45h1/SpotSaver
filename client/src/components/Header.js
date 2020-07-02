@@ -3,6 +3,7 @@ import { withStyles, AppBar, Toolbar, Typography } from "@material-ui/core";
 import MapIcon from "@material-ui/icons/Map";
 import AppContext from "../context";
 import Signout from "../components/Auth/Signout";
+import MapSelect from "./RadioMapSelect";
 
 const Header = ({ classes }) => {
   const { state } = useContext(AppContext);
@@ -18,20 +19,24 @@ const Header = ({ classes }) => {
             </Typography>
           </div>
 
-          {/* Current User info */}
           {currentUser && (
-            <div className={classes.grow}>
-              <img
-                className={classes.picture}
-                src={currentUser.picture}
-                alt={currentUser.name}
-              />
-              <Typography variant="h6" noWrap color="inherit">
-                {currentUser.name}
-              </Typography>
-            </div>
+            <>
+              <div className={classes.grow}>
+                <img
+                  className={classes.picture}
+                  src={currentUser.picture}
+                  alt={currentUser.name}
+                />
+                <Typography variant="h6" noWrap color="inherit">
+                  {currentUser.name}
+                </Typography>
+              </div>
+              <div className={classes.grow}>
+                <MapSelect />
+              </div>
+            </>
           )}
-          {/* signout here */}
+
           <Signout />
         </Toolbar>
       </AppBar>
