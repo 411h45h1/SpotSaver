@@ -25,7 +25,7 @@ const MapSelect = () => {
       >
         <FormControlLabel
           value="street"
-          control={<Radio color="black" />}
+          control={<Radio />}
           label="Street"
           labelPlacement="start"
           onClick={() => {
@@ -34,7 +34,7 @@ const MapSelect = () => {
         />
         <FormControlLabel
           value="light"
-          control={<Radio color="black" />}
+          control={<Radio />}
           label="Light"
           labelPlacement="start"
           onClick={() => {
@@ -43,7 +43,7 @@ const MapSelect = () => {
         />
         <FormControlLabel
           value="dark"
-          control={<Radio color="black" />}
+          control={<Radio />}
           label="Dark"
           labelPlacement="start"
           onClick={() => {
@@ -53,7 +53,7 @@ const MapSelect = () => {
 
         <FormControlLabel
           value="customRed"
-          control={<Radio color="black" />}
+          control={<Radio />}
           label="Alt"
           labelPlacement="start"
           onClick={() => {
