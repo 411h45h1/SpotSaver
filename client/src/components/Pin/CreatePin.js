@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withStyles, TextField, Typography, Button } from "@material-ui/core";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
 import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
@@ -6,6 +6,12 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
 
 const CreatePin = ({ classes }) => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState("");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
   return (
     <form className={classes.form}>
       <Typography
@@ -17,12 +23,18 @@ const CreatePin = ({ classes }) => {
         Pin Location
       </Typography>
       <div>
-        <TextField name="title" label="Title" placeholder="insert pin title" />
+        <TextField
+          name="title"
+          label="Title"
+          placeholder="insert pin title"
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <input
           accept="image/*"
           id="image"
           type="file"
           className={classes.input}
+          onChange={(e) => setImage(e.target.files[0])}
         />
         <label htmlFor="image">
           <Button component="span" size="small" className={classes.button}>
@@ -39,6 +51,7 @@ const CreatePin = ({ classes }) => {
           margin="normal"
           variant="outlined"
           placeholder="Describe the location here"
+          onChange={(e) => setContent(e.target.value)}
         />
       </div>
       <div>
@@ -51,6 +64,8 @@ const CreatePin = ({ classes }) => {
           variant="contained"
           color="secondary"
           className={classes.button}
+          disabled={!title.trim() || !content.trim() || !image}
+          onClick={handleSubmit}
         >
           submit
           <SaveIcon className={classes.rightIcon} />
