@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import axios from "axios";
 import { withStyles, TextField, Typography, Button } from "@material-ui/core";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
 import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
@@ -12,9 +13,26 @@ const CreatePin = ({ classes }) => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleImgUpload = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "geopins");
+    data.append("cloud_name", "ahmedscloud");
+
+    const res = await axios.post(
+      "https://api.cloudinary.com/v1_1/ahmedscloud/image/upload",
+      data
+    );
+
+    return res.data.url;
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Submitted items => ", { title, content, image });
+
+    const url = await handleImgUpload();
+
+    console.log("Submitted items => ", { title, content, image, url });
   };
   const handleDeleteDraft = (event) => {
     setContent("");
