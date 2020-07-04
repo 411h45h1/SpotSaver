@@ -11,6 +11,7 @@ const CreatePin = ({ classes }) => {
   const [image, setImage] = useState("");
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("Submitted items => ", { title, content, image });
   };
   return (
     <form className={classes.form}>

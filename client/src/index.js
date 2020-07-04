@@ -15,7 +15,7 @@ import ProtectedRoute from "./ProtectedRoute";
 const Root = () => {
   const initialState = useContext(AppContext);
   const [state, dispatch] = useReducer(reducer, initialState);
-  console.log({ state });
+  console.log("Global Context => ", { state });
   return (
     <Router>
       <AppContext.Provider value={{ state, dispatch }}>
