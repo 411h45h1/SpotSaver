@@ -1,21 +1,27 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-// import Explore from "@material-ui/icons/Explore";
-// import Typography from "@material-ui/core/Typography";
+import { withStyles, Typography } from "@material-ui/core";
+import ExploreIcon from "@material-ui/icons/Explore";
 
-const NoContent = ({ classes }) => <div>NoContent</div>;
+const NoContent = ({ classes }) => (
+  <div className={classes.root}>
+    <ExploreIcon className={classes.icon} />
+    <Typography variant="h6" align="center" color="textPrimary" gutterBottom>
+      Left click anywhere on the map to add a pin
+    </Typography>
+  </div>
+);
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   icon: {
     margin: theme.spacing.unit,
-    fontSize: "80px"
-  }
+    fontSize: "80px",
+  },
 });
 
 export default withStyles(styles)(NoContent);
