@@ -1,17 +1,22 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
+import AppContext from "../../context";
+import { GraphQLClient } from "graphql-request";
+import { CREATE_PIN_MUTATION } from "../../graphql/mutations";
+
 import { withStyles, TextField, Typography, Button } from "@material-ui/core";
+//Icons
 import AddAPhotoIcon from "@material-ui/icons/AddAPhotoTwoTone";
 import LandscapeIcon from "@material-ui/icons/LandscapeOutlined";
 import ClearIcon from "@material-ui/icons/Clear";
 import SaveIcon from "@material-ui/icons/SaveTwoTone";
-import AppContext from "../../context";
 
 const CreatePin = ({ classes }) => {
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
+  const [processing, setProcessing] = useState(false);
 
   const handleImgUpload = async () => {
     const data = new FormData();
@@ -28,11 +33,37 @@ const CreatePin = ({ classes }) => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const url = await handleImgUpload();
+      const { latitude, longitude } = state.draftPin;
+      const url = await handleImgUpload();
+      const variables = { title, image: url, content, latitude, longitude };
+      setProcessing(true);
+      const idToken = window.gapi.auth2
+        .getAuthInstance()
+        .currentUser.get()
+        .getAuthResponse().id_token;
 
-    console.log("Submitted items => ", { title, content, image, url });
+      const client = new GraphQLClient("http://localhost:4000/graphql", {
+        headers: {
+          authorization: idToken,
+        },
+      });
+
+      const { createPin } = await client.request(
+        CREATE_PIN_MUTATION,
+        variables
+      );
+
+      console.log("Pin Created => ", { createPin });
+
+      handleDeleteDraft();
+    } catch (error) {
+      setProcessing(false);
+
+      console.error("Error @ pin creation =>", error);
+    }
   };
   const handleDeleteDraft = (event) => {
     setContent("");
@@ -102,7 +133,7 @@ const CreatePin = ({ classes }) => {
           variant="contained"
           color="secondary"
           className={classes.button}
-          disabled={!title.trim() || !content.trim() || !image}
+          disabled={!title.trim() || !content.trim() || !image || processing}
           onClick={handleSubmit}
         >
           submit
