@@ -27,7 +27,13 @@ const Map = ({ classes }) => {
   }, []);
 
   const getPins = async () => {
+    //query db
     const { getPins } = await client.request(GET_PINS_QUERY);
+    //load data into state
+    dispatch({
+      type: "GET_PINS",
+      payload: getPins,
+    });
     console.log(getPins);
   };
 
@@ -94,6 +100,20 @@ const Map = ({ classes }) => {
             <PinIcon size={40} color="green" />
           </Marker>
         )}
+
+        {/* Created Pins */}
+
+        {state.pins.map((pin) => (
+          <Marker
+            key={pin._id}
+            latitude={pin.latitude}
+            longitude={pin.longitude}
+            offsetLeft={-19}
+            offsetTop={-37}
+          >
+            <PinIcon size={40} color="navy" />
+          </Marker>
+        ))}
       </ReactMapGL>
       {/* blog */}
       <Blog />

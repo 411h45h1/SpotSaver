@@ -36,7 +36,13 @@ export default function reducer(state, action) {
         ...state,
         draftPin: action.payload,
       };
-    // Map
+    // Pins
+    case "GET_PINS":
+      return {
+        ...state,
+        pins: action.payload,
+      };
+    // Map Style
     case "MAP_CHANGE_BASIC":
       return {
         ...state,
