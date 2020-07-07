@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { withStyles, Typography } from "@material-ui/core";
+import { withStyles, Typography, IconButton } from "@material-ui/core";
 import ReactMapGL, { NavigationControl, Marker, Popup } from "react-map-gl";
 import AppContext from "../context";
 import PinIcon from "./PinIcon";
@@ -7,8 +7,8 @@ import Blog from "./Blog";
 import { useClient } from "../client";
 import { GET_PINS_QUERY } from "../graphql/queries";
 import differenceInMinutes from "date-fns/difference_in_minutes";
-// import Button from "@material-ui/core/Button";
-// import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 const INITIAL_VIEWPORT = {
   latitude: 43.65107,
   longitude: -79.3832,
@@ -74,6 +74,8 @@ const Map = ({ classes }) => {
       payload: pin,
     });
   };
+
+  const isAuthUser = () => state.currentUser._id === popup.author._id;
 
   return (
     <div className={classes.root}>
@@ -158,6 +160,11 @@ const Map = ({ classes }) => {
               <Typography>
                 {popup.latitude.toFixed(6)},{popup.longitude.toFixed(6)}
               </Typography>
+              {isAuthUser() && (
+                <IconButton aria-label="delete">
+                  <DeleteIcon style={{ color: "tomato" }} />
+                </IconButton>
+              )}
             </div>
           </Popup>
         )}
