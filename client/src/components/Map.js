@@ -6,6 +6,7 @@ import PinIcon from "./PinIcon";
 import Blog from "./Blog";
 import { useClient } from "../client";
 import { GET_PINS_QUERY } from "../graphql/queries";
+import { DELETE_PIN_MUTATION } from "../graphql/mutations";
 import differenceInMinutes from "date-fns/difference_in_minutes";
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -76,6 +77,16 @@ const Map = ({ classes }) => {
   };
 
   const isAuthUser = () => state.currentUser._id === popup.author._id;
+
+  const handleDeletePin = async (pin) => {
+    const variables = { pinId: pin._id };
+    const { deletePin } = await client.request(DELETE_PIN_MUTATION, variables);
+    dispatch({
+      type: "DELETE_PIN",
+      payload: deletePin,
+    });
+    setPopup(null);
+  };
 
   return (
     <div className={classes.root}>
@@ -161,7 +172,10 @@ const Map = ({ classes }) => {
                 {popup.latitude.toFixed(6)},{popup.longitude.toFixed(6)}
               </Typography>
               {isAuthUser() && (
-                <IconButton aria-label="delete">
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleDeletePin(popup)}
+                >
                   <DeleteIcon style={{ color: "tomato" }} />
                 </IconButton>
               )}
