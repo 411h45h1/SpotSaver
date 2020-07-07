@@ -5,6 +5,7 @@ const AppContext = createContext({
   isAuth: false,
   mapSelected: "mapbox://styles/mapbox/streets-v11",
   draftPin: null,
+  pins: [],
 });
 
 export default AppContext;
