@@ -6,6 +6,7 @@ const AppContext = createContext({
   mapSelected: "mapbox://styles/mapbox/streets-v11",
   draftPin: null,
   pins: [],
+  selectedPin: null,
 });
 
 export default AppContext;

@@ -25,6 +25,7 @@ export default function reducer(state, action) {
           latitude: 0,
           longitude: 0,
         },
+        selectedPin: null,
       };
     case "DELETE_DRAFT":
       return {
@@ -48,6 +49,12 @@ export default function reducer(state, action) {
       return {
         ...state,
         pins: [...prevPins, newPin],
+      };
+    case "SET_SELECTED_PIN":
+      return {
+        ...state,
+        selectedPin: action.payload,
+        draftPin: null,
       };
     // Map Style
     case "MAP_CHANGE_BASIC":
